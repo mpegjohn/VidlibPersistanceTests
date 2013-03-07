@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.vidlib.domain.Media;
@@ -26,13 +27,16 @@ public class MediaServiceTest extends AbstractServiceTest{
 	MediaService mediaService;
 	
 	@Test
-	@Rollback(false)
+	@DatabaseSetup("empty_media.xml")
+	@DatabaseTearDown("empty_media.xml")
 	@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "first_media.xml")
 	public void TestCreateMedia()
 	{
-		deleteFromTables("media", "property", "scene", "notes");
+		//deleteFromTables("media", "property", "scene", "notes");
+		simpleJdbcTemplate.getJdbcOperations().execute("ALTER TABLE media AUTO_INCREMENT=1");
 		Media media = new Media();
 		media.setName("First media");
+		media.setId_media(1l);
 		//media.setImportDate(new Date(113,1,26,0,0,0));
 		Calendar cal = new GregorianCalendar(2013, 0, 2,1,2,3);
 		
@@ -59,8 +63,8 @@ public class MediaServiceTest extends AbstractServiceTest{
 	}
 
 	@Test
-	@Rollback(false)
 	@DatabaseSetup("list_of_media.xml")
+	@DatabaseTearDown("empty_media.xml")
 	public void TestFindAll()
 	{
 		List<Media> mediaList = mediaService.findAll();
@@ -69,8 +73,8 @@ public class MediaServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	@Rollback(false)
 	@DatabaseSetup("first_media.xml")
+	@DatabaseTearDown("empty_media.xml")
 	public void TestReadMedia()
 	{
 		Media media = mediaService.findById(1);
@@ -87,10 +91,10 @@ public class MediaServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	@Rollback(false)
+	@DatabaseSetup("empty_media.xml")
 	public void TestNoMedia()
 	{
-		deleteFromTables("media", "property", "scene", "notes");
+		//deleteFromTables("media", "property", "scene", "notes");
 		Media media = mediaService.findById(1);
 		assertNull(media);
 	}

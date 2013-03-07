@@ -11,19 +11,21 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:app-context.xml"})
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 	TransactionDbUnitTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class})
+@TransactionConfiguration(defaultRollback=false)
 public abstract class AbstractServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-	 //@PersistenceContext
-     //protected EntityManager em;
+	 @PersistenceContext
+     protected EntityManager em;
 	
 }
