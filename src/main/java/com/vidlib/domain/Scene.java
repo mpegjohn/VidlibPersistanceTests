@@ -12,12 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 @Entity
 @Table (name = "scene")
+@NamedQueries({
+	@NamedQuery(name="Scene.Get_Last_Scene_number", query="select max(s.sceneNumber) from Scene s where s.media.id_media = :id")
+})
 public class Scene implements Serializable
 {
 	private long id_scene;

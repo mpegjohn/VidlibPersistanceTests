@@ -26,6 +26,8 @@ public class MediaServiceTest extends AbstractServiceTest{
 	@Autowired
 	MediaService mediaService;
 	
+	
+	
 	@Test
 	@DatabaseSetup("empty_media.xml")
 	@DatabaseTearDown("empty_media.xml")
@@ -45,7 +47,7 @@ public class MediaServiceTest extends AbstractServiceTest{
 		media.setImportDate(dt);
 		
 		mediaService.save(media);
-		//em.flush();
+		em.flush();
 		
 		
 //		Scene scene = new Scene();
@@ -62,6 +64,38 @@ public class MediaServiceTest extends AbstractServiceTest{
 		
 	}
 
+	@Test
+	@DatabaseSetup("first_media.xml")
+	@DatabaseTearDown("empty_media.xml")
+	@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "with_scenes.xml")
+	public void TestAddScene()
+	{
+		simpleJdbcTemplate.getJdbcOperations().execute("ALTER TABLE scene AUTO_INCREMENT=1");
+		Media media = mediaService.findById(1);
+
+		int count = mediaService.getLastSceneCount(media.getId_media());
+
+		// Check that a non existing scene returns zero for a last scene number
+		assertEquals(0, count);
+		
+		Scene scene = new Scene();
+		scene.setSceneNumber(1);
+
+		media.addScene(scene);
+
+		scene = new Scene();
+		
+		count = mediaService.getLastSceneCount(media.getId_media());
+		
+		assertEquals(1, count);
+		
+		scene.setSceneNumber(count+1);
+		
+		media.addScene(scene);
+		
+		mediaService.save(media);
+	}
+	
 	@Test
 	@DatabaseSetup("list_of_media.xml")
 	@DatabaseTearDown("empty_media.xml")

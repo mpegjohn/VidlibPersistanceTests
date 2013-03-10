@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,27 @@ public class MediaService {
 	}
 	
 	@Transactional(readOnly=true)
+	public int getLastSceneCount(long mediaId)
+	{
+		TypedQuery<Integer> query = em.createNamedQuery("Scene.Get_Last_Scene_number",Integer.class);
+		
+		query.setParameter("id", mediaId);
+		
+		int last_value;
+		try
+		{
+			last_value = query.getSingleResult();
+		}
+		catch(NullPointerException ex)
+		{
+			last_value = 0;
+		}
+		
+		return last_value;
+		
+	}
+	
+	@Transactional(readOnly=true)
 	public Media findById(long id)
 	{
 		Media media = em.find(Media.class, id);
@@ -44,7 +66,6 @@ public class MediaService {
 		{
 			em.merge(media);
 		}
-		em.flush();
 		return media;
 	}
 }
