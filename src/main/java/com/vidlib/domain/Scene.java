@@ -3,6 +3,8 @@ package com.vidlib.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -51,6 +54,17 @@ public class Scene implements Serializable
 	}
 	public void setMedia(Media media) {
 		this.media = media;
+	}
+	
+	private List<Thumbnail> thumbnails = new ArrayList<Thumbnail>();
+	
+	@OneToMany(mappedBy = "scene", cascade=CascadeType.ALL,
+			orphanRemoval=true, fetch = FetchType.EAGER)
+	public List<Thumbnail> getThumbnails() {
+		return this.thumbnails;
+	}
+	public void setThumbnails(List<Thumbnail> thumbnails) {
+		this.thumbnails = thumbnails;
 	}
 		
 	private Property property;

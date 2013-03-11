@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,6 +20,7 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.vidlib.domain.Media;
 import com.vidlib.domain.Property;
 import com.vidlib.domain.Scene;
+import com.vidlib.domain.Thumbnail;
 import com.vidlib.service.MediaService;
 
 public class MediaServiceTest extends AbstractServiceTest{
@@ -48,20 +50,6 @@ public class MediaServiceTest extends AbstractServiceTest{
 		
 		mediaService.save(media);
 		em.flush();
-		
-		
-//		Scene scene = new Scene();
-//		scene.setSceneNumber(1);
-		
-//		media.addScene(scene);
-//		mediaService.save(media);
-		
-		
-		//Media savedMedia = mediaService.findById(1);
-		
-		//assertEquals("First media", savedMedia.getName());
-		
-		
 	}
 
 	@Test
@@ -132,4 +120,34 @@ public class MediaServiceTest extends AbstractServiceTest{
 		Media media = mediaService.findById(1);
 		assertNull(media);
 	}
+
+	@Test
+	@DatabaseSetup("with_scenes.xml")
+	@DatabaseTearDown("empty_media.xml")
+	//@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "with_scenes.xml")
+	public void TestAddThumbnail()
+	{
+
+		Media media = mediaService.findById(1l);
+		
+		List<Scene> scenes = media.getScenes();
+		
+		Scene scene = scenes.get(0);
+		
+		List<Thumbnail> thumbList = new ArrayList<Thumbnail>();
+		
+		for(int i = 0; i < 10; i++)
+		{
+			Thumbnail thumbnail = new Thumbnail();
+			thumbnail.setImage("image " + i);
+			thumbnail.setScene(scene);
+			thumbnail.setImageOrderNumber(i);
+			thumbnail.setImageTime(new Date().toString());
+			
+			thumbList.add(thumbnail);
+		}
+		
+		scene.setThumbnails(thumbList);
+	}
+	
 }
