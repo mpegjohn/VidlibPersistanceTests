@@ -123,7 +123,7 @@ public class MediaServiceTest extends AbstractServiceTest{
 	@Test
 	@DatabaseSetup("with_scenes.xml")
 	@DatabaseTearDown("empty_media.xml")
-	//@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "with_scenes.xml")
+	@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "with_thumbs.xml")
 	public void TestAddThumbnail()
 	{
 		simpleJdbcTemplate.getJdbcOperations().execute("ALTER TABLE thumbnail AUTO_INCREMENT=1");
@@ -144,5 +144,8 @@ public class MediaServiceTest extends AbstractServiceTest{
 			
 			scene.addThumbnail(thumbnail);
 		}
+		
+		mediaService.save(media);
+		em.flush();
 	}
 }
