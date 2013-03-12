@@ -68,7 +68,12 @@ public class Scene implements Serializable
 	public void setThumbnails(List<Thumbnail> thumbnails) {
 		this.thumbnails = thumbnails;
 	}
-		
+	
+	public void addThumbnail(Thumbnail thumbnail) {
+		thumbnail.setScene(this);
+		this.thumbnails.add(thumbnail);
+	}
+	
 	private Property property;
 	
 	@OneToOne(mappedBy="scene", cascade=CascadeType.ALL,

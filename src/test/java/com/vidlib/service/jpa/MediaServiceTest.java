@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -27,8 +28,6 @@ public class MediaServiceTest extends AbstractServiceTest{
 
 	@Autowired
 	MediaService mediaService;
-	
-	
 	
 	@Test
 	@DatabaseSetup("empty_media.xml")
@@ -128,27 +127,22 @@ public class MediaServiceTest extends AbstractServiceTest{
 	public void TestAddThumbnail()
 	{
 		simpleJdbcTemplate.getJdbcOperations().execute("ALTER TABLE thumbnail AUTO_INCREMENT=1");
+			
 		Media media = mediaService.findById(1l);
 		
 		List<Scene> scenes = media.getScenes();
 		
 		Scene scene = scenes.get(0);
 		
-		List<Thumbnail> thumbList = new ArrayList<Thumbnail>();
-		
-		for(int i = 0; i < 10; i++)
+		for(int i = 1; i < 10; i++)
 		{
 			Thumbnail thumbnail = new Thumbnail();
 			thumbnail.setImage("image " + i);
-			thumbnail.setScene(scene);
 			thumbnail.setImageOrderNumber(i);
-			thumbnail.setImageTime(new Date().toString());
+			thumbnail.setImageTime("fred");
 			thumbnail.setImageSize(100);
 			
-			thumbList.add(thumbnail);
+			scene.addThumbnail(thumbnail);
 		}
-		
-		scene.setThumbnails(thumbList);
 	}
-	
 }
