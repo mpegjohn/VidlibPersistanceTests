@@ -127,7 +127,7 @@ public class MediaServiceTest extends AbstractServiceTest{
 	//@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "with_scenes.xml")
 	public void TestAddThumbnail()
 	{
-
+		simpleJdbcTemplate.getJdbcOperations().execute("ALTER TABLE thumbnail AUTO_INCREMENT=1");
 		Media media = mediaService.findById(1l);
 		
 		List<Scene> scenes = media.getScenes();
@@ -143,6 +143,7 @@ public class MediaServiceTest extends AbstractServiceTest{
 			thumbnail.setScene(scene);
 			thumbnail.setImageOrderNumber(i);
 			thumbnail.setImageTime(new Date().toString());
+			thumbnail.setImageSize(100);
 			
 			thumbList.add(thumbnail);
 		}

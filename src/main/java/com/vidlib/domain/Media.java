@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name = "media")
 @NamedQueries({
@@ -136,7 +139,8 @@ public class Media implements Serializable {
 	private List<Scene> scenes = new ArrayList<Scene>();
 	
 	@OneToMany(mappedBy = "media", cascade=CascadeType.ALL,
-			orphanRemoval=true, fetch = FetchType.EAGER)
+			orphanRemoval=true)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Scene> getScenes() {
 		return this.scenes;
 	}

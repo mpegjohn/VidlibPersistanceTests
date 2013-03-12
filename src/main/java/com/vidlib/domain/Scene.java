@@ -20,6 +20,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 
 @Entity
 @Table (name = "scene")
@@ -32,8 +35,6 @@ public class Scene implements Serializable
 	private Media media;
 	private int sceneNumber;
 	private int version;
-	
-
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,7 +60,8 @@ public class Scene implements Serializable
 	private List<Thumbnail> thumbnails = new ArrayList<Thumbnail>();
 	
 	@OneToMany(mappedBy = "scene", cascade=CascadeType.ALL,
-			orphanRemoval=true, fetch = FetchType.EAGER)
+			orphanRemoval=true)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Thumbnail> getThumbnails() {
 		return this.thumbnails;
 	}
@@ -70,7 +72,8 @@ public class Scene implements Serializable
 	private Property property;
 	
 	@OneToOne(mappedBy="scene", cascade=CascadeType.ALL,
-			orphanRemoval=true, fetch = FetchType.EAGER)
+			orphanRemoval=true)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	public Property getProperty() {
 		return property;
 	}
