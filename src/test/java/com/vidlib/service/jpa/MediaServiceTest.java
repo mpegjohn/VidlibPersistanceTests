@@ -148,4 +148,22 @@ public class MediaServiceTest extends AbstractServiceTest{
 		mediaService.save(media);
 		em.flush();
 	}
+	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	@DatabaseTearDown("empty_media.xml")
+	public void TestReadThumbnails()
+	{			
+		Media media = mediaService.findById(1l);
+		
+		List<Scene> scenes = media.getScenes();
+		
+		assertEquals(2, scenes.size());
+		
+		Scene scene = scenes.get(0);
+	
+		List<Thumbnail> thumbs = scene.getThumbnails();
+		
+		assertEquals(9, thumbs.size());
+	}
 }
