@@ -1,4 +1,4 @@
-package com.vidlib.service;
+package com.vidlib.service.jpa;
 
 import java.util.List;
 
