@@ -27,14 +27,5 @@ public class SceneService {
 		return scene;
 	}
 
-	public void save(Scene scene)
-	{
-		
-		
-		
-	}
-	
-	
-
 	
 }
