@@ -8,15 +8,20 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vidlib.domain.Scene;
 import com.vidlib.service.SceneService;
+import com.vidlib.service.repository.SceneRepository;
 
 @Service("jpaSceneService")
 @Repository
 @Transactional
 public class SceneServiceJpa implements SceneService {
 
+	//@Autowired
+	//SceneRepository sceneRepo;
+	
 	@PersistenceContext
 	private EntityManager em;
 	

@@ -22,12 +22,45 @@ import com.vidlib.domain.Media;
 import com.vidlib.domain.Property;
 import com.vidlib.domain.Scene;
 import com.vidlib.domain.Thumbnail;
-import com.vidlib.service.MediaService;
+
+import com.vidlib.service.SceneService;
 
 public class SceneServiceTest extends AbstractServiceTest{
 
 	@Autowired
-	MediaService sceneService;
+	SceneService sceneService;
+	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestGetScene()
+	{
+
+		Scene scene = sceneService.find(1L);
+		
+		assertNotNull(scene);
+	}
+	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestSceneThumbnails()
+	{
+
+		Scene scene = sceneService.find(1L);
+		
+		assertEquals(scene.getThumbnails().size(), 9);
+	}
+	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestSceneMedia()
+	{
+
+		Scene scene = sceneService.find(1L);
+		
+		Long id = scene.getMedia().getId_media();
+		
+		assertEquals(1L, id);
+	}
 	
 	
 }
