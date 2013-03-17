@@ -69,12 +69,10 @@ public class SceneServiceTest extends AbstractServiceTest{
 	@Test
 	@DatabaseSetup("with_thumbs.xml")
 	public void TestGetFromMediaId()
-	{
-		
+	{		
 		List<Scene> list = sceneService.FindByMediaId(1l);
 		
-		assertEquals(2, list.size());
-		
+		assertEquals("Got all the scenes for this media",10, list.size());		
 	}
 	
 	@Test
@@ -82,13 +80,26 @@ public class SceneServiceTest extends AbstractServiceTest{
 	public void TestGetFromSceneId()
 	{
 		List<Long> list = new ArrayList<Long>();
-		list.add(1L);
-		list.add(2L);
+		list.add(3L);
+		list.add(4L);
 				
 		List<Scene> sceneList = sceneService.FindByIdScene(list);
 		
 		assertEquals(2, sceneList.size());
-		
+		assertEquals(3, sceneList.get(0).getIdScene());
+		assertEquals(4, sceneList.get(1).getIdScene());
 	}
+
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestGetFromMediaIdPageable()
+	{	
+		
+		List<Scene> list = sceneService.FindByMediaId(1l);
+		
+		assertEquals("Got all the scenes for this media",10, list.size());		
+	}
+
+	
 	
 }

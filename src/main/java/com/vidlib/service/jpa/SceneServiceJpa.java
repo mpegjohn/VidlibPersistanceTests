@@ -52,5 +52,19 @@ public class SceneServiceJpa implements SceneService {
 		List<Scene> list = sceneRepo.findByIdScene(id);
 		return list;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Scene> FindByMediaIdPageable(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Scene> FindByIdScenePageable(List<Long> id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

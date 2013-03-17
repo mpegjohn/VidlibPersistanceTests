@@ -22,7 +22,13 @@ public interface SceneRepository extends JpaRepository<Scene, Long> {
 	
 	@Query(FIND_BY_MEDIA_ID)
 	public List<Scene> findByMedia(@Param("id") Long id);//, Pageable page);
+
+	@Query(FIND_BY_MEDIA_ID)
+	public List<Scene> findByMediaPageable(@Param("id") Long id, Pageable page);
 	
 	@Query(FIND_BY_ID_LIST)
 	public List<Scene> findByIdScene(@Param("id") List<Long> id);//, Pageable page);
+
+	@Query(FIND_BY_ID_LIST)
+	public List<Scene> findByIdScenePageable(@Param("id") List<Long> id, Pageable page);
 }

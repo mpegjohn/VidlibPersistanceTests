@@ -16,6 +16,12 @@ public interface SceneService {
 
 	@Transactional(readOnly=true)
 	public abstract List<Scene> FindByIdScene(List<Long> id);
-	
+
+	@Transactional(readOnly=true)
+	public abstract List<Scene> FindByMediaIdPageable(long id);
+
+	@Transactional(readOnly=true)
+	public abstract List<Scene> FindByIdScenePageable(List<Long> id);
+
 	
 }
