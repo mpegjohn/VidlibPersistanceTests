@@ -19,8 +19,8 @@ import com.vidlib.service.repository.SceneRepository;
 @Transactional
 public class SceneServiceJpa implements SceneService {
 
-	//@Autowired
-	//SceneRepository sceneRepo;
+	@Autowired
+	SceneRepository sceneRepo;
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -37,5 +37,20 @@ public class SceneServiceJpa implements SceneService {
 		return scene;
 	}
 
+	@Transactional(readOnly=true)
+	public List<Scene> FindByMediaId(long id)
+	{
+		List<Scene> list = sceneRepo.findByMedia(id);
+		
+		return list;		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Scene> FindByIdScene(List<Long> id) {
+		
+		List<Scene> list = sceneRepo.findByIdScene(id);
+		return list;
+	}
 	
 }

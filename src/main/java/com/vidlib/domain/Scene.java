@@ -41,10 +41,10 @@ public class Scene implements Serializable
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id_scene")
-	public long getId_scene() {
+	public long getIdScene() {
 		return id_scene;
 	}
-	public void setId_scene(long id_scene) {
+	public void setIdScene(long id_scene) {
 		this.id_scene = id_scene;
 	}
 	

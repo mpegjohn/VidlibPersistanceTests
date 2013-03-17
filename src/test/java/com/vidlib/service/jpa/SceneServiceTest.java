@@ -37,7 +37,7 @@ public class SceneServiceTest extends AbstractServiceTest{
 
 		Scene scene = sceneService.find(1L);
 		
-		assertNotNull(scene);
+		assertNotNull("Scene found and not null",scene);
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class SceneServiceTest extends AbstractServiceTest{
 
 		Scene scene = sceneService.find(1L);
 		
-		assertEquals(scene.getThumbnails().size(), 9);
+		assertEquals("Scene has correct number of thumbnails",9, scene.getThumbnails().size());
 	}
 	
 	@Test
@@ -57,10 +57,38 @@ public class SceneServiceTest extends AbstractServiceTest{
 
 		Scene scene = sceneService.find(1L);
 		
-		Long id = scene.getMedia().getId_media();
+		Media media = scene.getMedia();
 		
-		assertEquals(1L, id);
+		assertNotNull(media);
+		
+		long mId = media.getId_media();
+		
+		assertEquals("Scene has a media object",1l, mId);
 	}
 	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestGetFromMediaId()
+	{
+		
+		List<Scene> list = sceneService.FindByMediaId(1l);
+		
+		assertEquals(2, list.size());
+		
+	}
+	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestGetFromSceneId()
+	{
+		List<Long> list = new ArrayList<Long>();
+		list.add(1L);
+		list.add(2L);
+				
+		List<Scene> sceneList = sceneService.FindByIdScene(list);
+		
+		assertEquals(2, sceneList.size());
+		
+	}
 	
 }
