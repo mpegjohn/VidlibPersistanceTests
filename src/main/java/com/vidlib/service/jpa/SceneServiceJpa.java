@@ -1,5 +1,6 @@
 package com.vidlib.service.jpa;
 
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.vidlib.domain.Scene;
 import com.vidlib.service.SceneService;
@@ -55,16 +58,16 @@ public class SceneServiceJpa implements SceneService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Scene> FindByMediaIdPageable(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Scene> FindByMediaIdPageable(long id, Pageable pageable) {
+		Page<Scene> page = sceneRepo.findByMediaPageable(id, pageable);
+		return page;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Scene> FindByIdScenePageable(List<Long> id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Scene> FindByIdScenePageable(List<Long> id, Pageable pageable) {
+		Page<Scene> page = sceneRepo.findByIdScenePageable(id, pageable);
+		return page;
 	}
 	
 }

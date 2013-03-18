@@ -12,6 +12,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import com.github.springtestdbunit.annotation.DatabaseSetup;
@@ -92,14 +95,27 @@ public class SceneServiceTest extends AbstractServiceTest{
 
 	@Test
 	@DatabaseSetup("with_thumbs.xml")
-	public void TestGetFromMediaIdPageable()
+	public void TestGetFirstMediaIdPageable()
 	{	
+		PageRequest pageRequest = new PageRequest(0, 4);
+		Page<Scene> page = sceneService.FindByMediaIdPageable(1L, pageRequest);
 		
-		List<Scene> list = sceneService.FindByMediaId(1l);
-		
-		assertEquals("Got all the scenes for this media",10, list.size());		
+		assertEquals(true, page.isFirstPage());
+		assertEquals("Got the first page of 4 scenes",4, page.getSize());
+		assertEquals("There are 3 pages",3, page.getTotalPages());
+		assertEquals("There are 2 scenes to this page",4, page.getContent().size());
 	}
 
-	
-	
+	@Test
+	@DatabaseSetup("with_thumbs.xml")
+	public void TestGetLastMediaIdPageable()
+	{	
+		PageRequest pageRequest = new PageRequest(2, 4);
+		Page<Scene> page = sceneService.FindByMediaIdPageable(1L, pageRequest);
+		
+		assertEquals("Got the last page of 2 scenes",true, page.isLastPage());
+		assertEquals("There are 2 scenes to this page",2, page.getContent().size());
+	}
+
+
 }
