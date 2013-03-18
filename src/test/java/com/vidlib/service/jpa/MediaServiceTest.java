@@ -54,7 +54,6 @@ public class MediaServiceTest extends AbstractServiceTest{
 	@Test
 	@DatabaseSetup("first_media.xml")
 	@DatabaseTearDown("empty_media.xml")
-	@ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "with_scenes.xml")
 	public void TestAddScene()
 	{
 		simpleJdbcTemplate.getJdbcOperations().execute("ALTER TABLE scene AUTO_INCREMENT=1");
@@ -81,6 +80,8 @@ public class MediaServiceTest extends AbstractServiceTest{
 		media.addScene(scene);
 		
 		mediaService.save(media);
+		
+		assertEquals(2, countRowsInTable("scene"));
 	}
 	
 	@Test
@@ -158,7 +159,7 @@ public class MediaServiceTest extends AbstractServiceTest{
 		
 		List<Scene> scenes = media.getScenes();
 		
-		assertEquals(2, scenes.size());
+		assertEquals(10, scenes.size());
 		
 		Scene scene = scenes.get(0);
 	
